@@ -1,3 +1,4 @@
+
 # Next.js redux starter
 An opinionated Next.js starter kit with Express, Redux, SASS, and Jest.
 
@@ -22,4 +23,5 @@ yarn start
 ```
 
 Then open `http://localhost:3100/` to see your app.
+
 
