@@ -13,8 +13,8 @@ class SearchRepoContainer extends Component {
   }
 
   componentDidMount() {
-    const { getTopReposFunc } = this.props;
-    getTopReposFunc({ lang: 'ruby' });
+    const { getTopRepos } = this.props;
+    getTopRepos({ lang: 'ruby' });
     console.log('test');
   }
 
@@ -32,7 +32,7 @@ function mapStateToProps(state) {
 
 SearchRepoContainer.propTypes = {
   repos: PropTypes.instanceOf(Map).isRequired,
-  getTopReposFunc: PropTypes.func.isRequired,
+  getTopRepos: PropTypes.func.isRequired,
 };
 
 export { SearchRepoContainer };

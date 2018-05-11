@@ -60,19 +60,15 @@
     "lint-fix": "standard --fix --verbose | snazzy"
   },
   "standard": {
-    "env": [
-      "jest"
-    ]
+    "env": ["jest"]
   },
   "engines": {
-    "node": "8.10.0",
+    "node": "10.1.0",
     "npm": "5.5.1",
     "yarn": "1.6.0"
   },
   "jest": {
-    "modulePaths": [
-      "./src"
-    ],
+    "modulePaths": ["./src"],
     "moduleNameMapper": {
       "\\.(css|scss)$": "<rootDir>/src/test/__mocks__/styleMock.js"
     },
