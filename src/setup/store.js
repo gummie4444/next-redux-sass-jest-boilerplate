@@ -1,65 +1,66 @@
 // Imports
-import Immutable from 'immutable'
-import thunkMiddleware from 'redux-thunk'
-import { createLogger } from 'redux-logger'
-import withRedux from 'next-redux-wrapper'
-import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
+import Immutable from 'immutable';
+import thunkMiddleware from 'redux-thunk';
+import { createLogger } from 'redux-logger';
+import withRedux from 'next-redux-wrapper';
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 
 // App Imports
-import config from './config'
-import repos from '../modules/home/api/homeState'
+import config from './config';
+import repos from '../modules/home/api/homeState';
 
-const rootReducer =  combineReducers({
-  repos
-})
+const rootReducer = combineReducers({
+  repos,
+});
 
-console.log(config,"config");
-function createMiddlewares ({ isServer }) {
-  let middlewares = [
-    thunkMiddleware
-  ]
+console.log(config, 'config');
+function createMiddlewares({ isServer }) {
+  const middlewares = [
+    thunkMiddleware,
+  ];
 
   if (config.env === 'development' && typeof window !== 'undefined') {
     middlewares.push(createLogger({
       level: 'info',
       collapsed: true,
       stateTransformer: (state) => {
-        let newState = {}
-
-        for (let i of Object.keys(state)) {
+        const newState = {};
+        /* eslint-disable */
+        for (const i of Object.keys(state)) {
           if (Immutable.Iterable.isIterable(state[i])) {
-            newState[i] = state[i].toJS()
+            newState[i] = state[i].toJS();
           } else {
-            newState[i] = state[i]
+            newState[i] = state[i];
           }
         }
+        /* eslint-enable */
 
-        return newState
-      }
-    }))
+        return newState;
+      },
+    }));
   }
 
-  return middlewares
+  return middlewares;
 }
 
-function immutableChildren (obj) {
-  let state = {}
+function immutableChildren(obj) {
+  const state = {};
   Object.keys(obj).map((key) => {
-    state[key] = Immutable.fromJS(obj[key])
-  })
-  return state
+    state[key] = Immutable.fromJS(obj[key]);
+  });
+  return state;
 }
 
 export const initStore = (initialState = {}, context) => {
-  let { isServer } = context
-  let middlewares = createMiddlewares({ isServer })
-  let state = immutableChildren(initialState)
+  const { isServer } = context;
+  const middlewares = createMiddlewares({ isServer });
+  const state = immutableChildren(initialState);
 
   return createStore(
     rootReducer,
     state,
-    compose(applyMiddleware(...middlewares))
-  )
-}
+    compose(applyMiddleware(...middlewares)),
+  );
+};
 
-export default (comp) => withRedux(initStore)(comp)
+export default comp => withRedux(initStore)(comp);

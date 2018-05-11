@@ -1,43 +1,41 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { Map } from 'immutable'
-import { connect } from 'react-redux'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Map } from 'immutable';
+import { connect } from 'react-redux';
 
-import { getTopRepos } from './api/homeActions'
-import SearchResults from './components/SearchResults'
+import { getTopRepos } from './api/homeActions';
+import SearchResults from './components/SearchResults';
 
 class SearchRepoContainer extends Component {
-  static async getInitialProps ({ store, query }) {
-    let lang = query.lang || 'javascript'
-    await store.dispatch(getTopRepos({ lang }))
+  static async getInitialProps({ store, query }) {
+    const lang = query.lang || 'javascript';
+    await store.dispatch(getTopRepos({ lang }));
   }
 
-  componentDidMount () {
-    let { getTopRepos } = this.props
-    getTopRepos({ lang: 'ruby' });
-    console.log("test");
+  componentDidMount() {
+    const { getTopReposFunc } = this.props;
+    getTopReposFunc({ lang: 'ruby' });
+    console.log('test');
   }
 
-  render () {
-    let { repos } = this.props
-    return (
-      <SearchResults repos={repos} />
-    )
+  render() {
+    const { repos } = this.props;
+    return <SearchResults repos={repos} />;
   }
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
-    repos: state.repos
-  }
+    repos: state.repos,
+  };
 }
 
 SearchRepoContainer.propTypes = {
   repos: PropTypes.instanceOf(Map).isRequired,
-  getTopRepos: PropTypes.func.isRequired
-}
+  getTopReposFunc: PropTypes.func.isRequired,
+};
 
-export { SearchRepoContainer }
+export { SearchRepoContainer };
 export default connect(mapStateToProps, {
-  getTopRepos
-})(SearchRepoContainer)
+  getTopRepos,
+})(SearchRepoContainer);
